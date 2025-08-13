@@ -1,0 +1,22 @@
+import os
+from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+# Load environment variables (optional, good practice for local dev)
+load_dotenv()
+
+# The GOOGLE_API_KEY is automatically read from your Codespaces secrets
+# You don't need to specify it in the code.
+try:
+    # Initialize the Gemini model
+    # gemini-1.5-flash is a great free and fast model
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=1,max_completion_tokens=20)
+
+    # Make the API call
+    result = llm.invoke("what is the capital of India?")
+
+    # Print the result
+    print(result.content)
+
+except Exception as e:
+    print(f"An error occurred: {e}")
