@@ -1,0 +1,39 @@
+import os
+from dotenv import load_dotenv
+
+# Import the correct class for Google Gemini embeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+
+# It's a good practice to load environment variables for your API key
+load_dotenv()
+
+# Ensure your GOOGLE_API_KEY is set in your environment or a .env file
+# In GitHub Codespaces, you should set this in the repository secrets.
+if not os.getenv("GOOGLE_API_KEY"):
+    raise ValueError("GOOGLE_API_KEY not found. Please set the environment variable.")
+
+try:
+    # 1. Initialize the Google Gemini embedding model
+    # "models/embedding-001" is Google's powerful and general-purpose text embedding model.
+    embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+
+    # The documents to be embedded remain the same
+    documents = [
+        "Delhi is the capital of India",
+        "Kolkata is the capital of West Bengal",
+        "Paris is the capital of France"
+    ]
+
+    # 2. Call the embed_documents method
+    # This method takes the list of documents and returns a list of vectors (embeddings).
+    vectors = embedding.embed_documents(documents)
+
+    # 3. Print the results for verification
+    print(f"Successfully generated {len(vectors)} vectors.")
+    print(f"Each vector has {len(vectors[0])} dimensions.")
+    print("\nHere's a preview of the first vector (first 5 dimensions):")
+    print(vectors[0][:5])
+
+except Exception as e:
+    print(f"An error occurred: {e}")
+
